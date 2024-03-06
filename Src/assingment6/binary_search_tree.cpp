@@ -1,7 +1,7 @@
 #include "binary_search_tree.h"
 #include <iostream>
 
-// New values insertted left when less-than or right when greater-than-or-equal-to
+// New values inserted left when less-than or right when greater-than-or-equal-to
 BinarySearchTree::BinarySearchTree() {
     root = nullptr;
 }
@@ -235,7 +235,7 @@ void BinarySearchTree::in_order_traversal(BinaryNode* node) {
     in_order_traversal(node->right);
 }
 
-// Main function for the program
+// Main function for the program with tests
 int main() {
     // Create a binary search tree object
     BinarySearchTree bst;

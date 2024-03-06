@@ -1,4 +1,9 @@
-#include "binary_node.h"
+struct BinaryNode
+{
+    int value;
+    BinaryNode *left;
+    BinaryNode *right;
+};
 
 class BinarySearchTree {
     BinaryNode *root;
