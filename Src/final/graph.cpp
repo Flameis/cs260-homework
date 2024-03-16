@@ -3,6 +3,8 @@
 #include <queue>
 #include <climits>
 #include <algorithm>
+#include <utility>
+#include <cassert>
 
 using namespace std;
 
@@ -12,10 +14,9 @@ struct Edge {
 };
 
 class Graph {
-private:
+public:
     vector<pair<char, vector<Edge>>> vertices;
 
-public:
     // Add a vertex to the graph
     void add_vertex(char vertex) {
         // If the vertex is not already in the graph, add it
@@ -68,6 +69,10 @@ public:
             } else if (vertices[i].first == destination) {
                 destinationIndex = i;
             }
+        }
+        // If the source or destination vertex is not in the graph, return an empty path
+        if (sourceIndex == -1 || destinationIndex == -1) {
+            return {INT_MAX, {}};
         }
 
         distances[sourceIndex] = 0;
@@ -167,13 +172,58 @@ public:
             }
         }
 
+        // If not all vertices were visited, the graph is disconnected
+        for (bool v : visited) {
+            if (!v) {
+                return {};
+            }
+        }
+
         // Return the minimum spanning tree
         return min_span_tree;
     }
 };
-
 int main() {
     Graph graph;
+
+    // Test Case 1: Adding a New Vertex
+    graph.add_vertex('A');
+    graph.add_vertex('B');
+    graph.add_vertex('C');
+    assert(graph.vertices.size() == 3);
+
+    // Test Case 2: Adding Existing Vertex
+    graph.add_vertex('A'); // Adding an existing vertex
+    assert(graph.vertices.size() == 3);
+
+    // Test Case 3: Adding a New Edge
+    graph.add_edge('A', 'B', 5);
+    graph.add_edge('B', 'C', 3);
+    graph.add_edge('C', 'A', 2);
+    assert(graph.vertices[0].second.size() == 2);
+
+    // Test Case 4: Shortest Path Exists
+    auto [shortest_distance, shortest_path] = graph.shortest_path('A', 'C');
+    assert(shortest_distance == 2);
+
+    // Test Case 5: Shortest Path Doesn't Exist
+    auto [shortest_distance2, shortest_path2] = graph.shortest_path('A', 'D');
+    assert(shortest_distance2 == INT_MAX);
+
+    // Test Case 6: Minimum Spanning Tree Exists
+    auto min_span_tree = graph.min_span_tree();
+    assert(min_span_tree.size() == 3);
+
+    // Test Case 7: No Minimum Spanning Tree (Graph Disconnected)
+    Graph disconnectedGraph;
+    disconnectedGraph.add_vertex('A');
+    disconnectedGraph.add_vertex('B');
+    auto disconnectedMST = disconnectedGraph.min_span_tree();
+    assert(disconnectedMST.size() == 0);
+
+    // Clear the graph
+    graph.vertices.clear();
+
     // Add vertices and edges to the graph
     graph.add_vertex('A');
     graph.add_vertex('B');
@@ -197,10 +247,10 @@ int main() {
     cout << "D -> (B, 4) (C, 5) " << endl;
 
     // Test shortest path algorithm
-    auto [shortest_distance, shortest_path] = graph.shortest_path('A', 'D');
-    cout << "Shortest distance from A to D: " << shortest_distance << endl;
+    auto [distance, path] = graph.shortest_path('A', 'D');
+    cout << "Shortest distance from A to D: " << distance << endl;
     cout << "Shortest path from A to D: ";
-    for (char vertex : shortest_path) {
+    for (char vertex : path) {
         cout << vertex << " ";
     }
     cout << endl;
@@ -211,12 +261,12 @@ int main() {
     cout << "Shortest path from A to D: A C D " << endl;
 
     // Test minimum spanning tree algorithm
-    auto min_span_tree = graph.min_span_tree();
+    auto min_span_tree2 = graph.min_span_tree();
     cout << "Minimum Spanning Tree:" << endl;
-    for (size_t i = 0; i < min_span_tree.size(); ++i) {
-        cout << char('A' + i) << " -> ";
-        for (const auto& neighbor : min_span_tree[i]) {
-            cout << "(" << neighbor.first << ", " << neighbor.second << ") ";
+    for (size_t i = 0; i < min_span_tree2.size(); ++i) {
+        cout << graph.vertices[i].first << " -> ";
+        for (const auto& edge : min_span_tree2[i]) {
+            cout << "(" << edge.first << ", " << edge.second << ") ";
         }
         cout << endl;
     }

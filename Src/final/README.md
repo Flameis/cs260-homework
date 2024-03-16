@@ -55,15 +55,32 @@ Finding the shortest path between two points on a map would help AI navigate the
      7. Return the minimum spanning tree.
 
 
-## Tests:
-1. Test adding vertices and edges to the graph.
-3. Test algorithms
+## Test Examples
+- Test Case 1: Adding a New Vertex
+- Test Case 2: Adding Existing Vertex
+- Test Case 3: Adding a New Edge
+- Test Case 4: Adding Existing Edge
+- Test Case 5: Shortest Path Exists
+- Test Case 6: Shortest Path Doesn't Exist
+- Test Case 7: Minimum Spanning Tree Exists
+- Test Case 8: No Minimum Spanning Tree (Graph Disconnected)
 
 ## Complexity:
-  - Adding/Removing Node: O(1)
-  - Adding/Removing Edge: O(1)
-  - Searching Algorithms (DFS, BFS): O(V + E)
-  - Getting Neighbors: O(1)
+
+#### Shortest Path Algorithms (e.g., Dijkstra's Algorithm):
+- Time Complexity: O((V + E) log V), where V is the number of vertices and E is the number of edges in the graph.
+- Space Complexity: O(V), where V is the number of vertices.
+
+#### Minimum Spanning Tree Algorithms (e.g., Prim's Algorithm, Kruskal's Algorithm):
+- Time Complexity: O(E log V), where V is the number of vertices and E is the number of edges in the graph.
+- Space Complexity: O(V), where V is the number of vertices.
+
+#### Graph Traversal Algorithms (e.g., Depth-First Search, Breadth-First Search):
+- Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges in the graph.
+- Space Complexity: O(V), where V is the number of vertices.
+
+#### Adding Vertices/Edges
+- O(1)
 
 ## Requirements:
 
